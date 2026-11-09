@@ -28,21 +28,36 @@ def update_base_label_1(event):
 def exchange():
     target_code = target_combobox.get().strip()
     base_code = base_combobox.get().strip()
+    base_code_1 = base_combobox_1.get().strip()
     # code = combobox.get()
-    if target_code and base_code:
+    if target_code and base_code and base_code_1:
         try:
             response = requests.get(f'https://open.er-api.com/v6/latest/{base_code}')
             response.raise_for_status()
             data = response.json()
+            response_1 = requests.get(f'https://open.er-api.com/v6/latest/{base_code_1}')
+            response_1.raise_for_status()
+            data_1 = response_1.json()
             if target_code in data['rates']:
                 exchange_rate = data['rates'][target_code]
-                base = currencies[base_code]
-                target = currencies[target_code]
+                # base = currencies[base_code]
+                # target = currencies[target_code]
+            if target_code in data_1['rates']:
+                exchange_rate_1 = data_1['rates'][target_code]
+                # base_1 = currencies[base_code_1]
+                # target = currencies[target_code]
+
+
+            base_name = currencies[base_code]
+            base_1_name = currencies[base_code_1]
+            target_name = currencies[target_code]
                 # currency_name  = currency[code]
-                mb.showinfo('Курс обмена',
-                            f'Курс к {base}: {exchange_rate:.2f} {target} за 1 {base}')
-            else:
-                mb.showinfo('Ошибка', f'Валюта {target_code} не найденна')
+            mb.showinfo('Курс обмена',
+                            f'Курс к {base_name}: {exchange_rate:.2f} {target_name} за 1 {base_name}\n\n'
+                                    f'Курс к {base_1_name}: {exchange_rate_1:.2f} {target_name} за 1 {base_1_name}'
+                            )
+            # else:
+            #     mb.showinfo('Ошибка', f'Валюта {target_code} не найденна')
         except Exception as er:
             mb.showerror('Ошибка', er)
     else:
