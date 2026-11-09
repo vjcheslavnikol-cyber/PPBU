@@ -29,7 +29,6 @@ def exchange():
     target_code = target_combobox.get().strip()
     base_code = base_combobox.get().strip()
     base_code_1 = base_combobox_1.get().strip()
-    # code = combobox.get()
     if target_code and base_code and base_code_1:
         try:
             response = requests.get(f'https://open.er-api.com/v6/latest/{base_code}')
@@ -40,24 +39,16 @@ def exchange():
             data_1 = response_1.json()
             if target_code in data['rates']:
                 exchange_rate = data['rates'][target_code]
-                # base = currencies[base_code]
-                # target = currencies[target_code]
             if target_code in data_1['rates']:
                 exchange_rate_1 = data_1['rates'][target_code]
-                # base_1 = currencies[base_code_1]
-                # target = currencies[target_code]
 
 
             base_name = currencies[base_code]
             base_1_name = currencies[base_code_1]
             target_name = currencies[target_code]
-                # currency_name  = currency[code]
             mb.showinfo('Курс обмена',
                             f'Курс к {base_name}: {exchange_rate:.2f} {target_name} за 1 {base_name}\n\n'
-                                    f'Курс к {base_1_name}: {exchange_rate_1:.2f} {target_name} за 1 {base_1_name}'
-                            )
-            # else:
-            #     mb.showinfo('Ошибка', f'Валюта {target_code} не найденна')
+                                f'Курс к {base_1_name}: {exchange_rate_1:.2f} {target_name} за 1 {base_1_name}')
         except Exception as er:
             mb.showerror('Ошибка', er)
     else:
@@ -112,11 +103,4 @@ target_label.pack()
 Button(text='Плучить курс обмена к доллару', command=exchange).pack(pady=10, padx=10)
 
 
-
 root.mainloop()
-
-# p = pprint.PrettyPrinter(indent=4)
-# result = requests.get('https://open.er-api.com/v6/latest/USD')
-# data = json.loads(result.text)
-# p.pprint(data)
-
